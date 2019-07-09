@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt'
-import { sign } from "jsonwebtoken"
-import { AuthenticationError } from 'apollo-server';
-
-
+import { sign } from 'jsonwebtoken'
+import { AuthenticationError } from 'apollo-server'
+import { JWT_SECRET } from './globals.config'
+import { isPassword, createHash } from './utils/hash';
+import { createToken } from './utils/jwt';
 
 export const resolvers = {
     Query: {
@@ -11,7 +12,7 @@ export const resolvers = {
         },
         user: async (_, { id }, { User }) => {
             try {
-                return await User.findOne({ id })
+                return await User.findById(id)
             } catch (error) {
                 throw new Error(error)
             }
@@ -19,7 +20,7 @@ export const resolvers = {
     },
     Mutation: {
         createUser: async (_, { password, ...rest }, { User }) => {
-            const hash = await bcrypt.hash(password, 10)
+            const hash = await createHash(password)
 
             try {
                 const newUser = await new User({ ...rest, password: hash })
@@ -37,17 +38,17 @@ export const resolvers = {
         },
         loginUser: async (_, { email, password }, { User }) => {
             const userInfo = await User.findOne({ email })
-            const isPassword = await bcrypt.compare(password, userInfo.password)
+            const match = await isPassword(password, userInfo.password)
 
-            if (isPassword){
-                const token = await sign({ uid: userInfo.id, username: userInfo.username}, 'somecoolsecret', { expiresIn: '1d'} )
+            if (match) {
+                const token = createToken({ uid: userInfo.id, username: userInfo.username })
                 return {
                     loggedIn: true,
                     token
                 }
             } else {
-                throw new AuthenticationError('Incorrect password')
+                throw new AuthenticationError('Incorrect Username or Password')
             }
-        }
+        },
     },
 }

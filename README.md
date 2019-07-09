@@ -16,3 +16,4 @@ Use a local or Atlas instance, which can be configured in `.env`
 - Logout
 - User Roles
 - Refresh Token(s)
+- Mocks

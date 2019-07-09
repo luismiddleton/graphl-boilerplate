@@ -1,6 +1,10 @@
 import dotenv from 'dotenv'
+import uuidv1 from 'uuid/v1'
 dotenv.config()
 
-export const { PORT = 4000, MONGO_CONNECTION_URL } = process.env
-
-export const SALT_ROUNDS = 10
+export const {
+    PORT = 4000,
+    MONGO_CONNECTION_URL,
+    APOLLO_ENGINE_KEY,
+    JWT_SECRET = uuidv1(),
+} = process.env
