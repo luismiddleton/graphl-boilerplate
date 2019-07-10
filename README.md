@@ -9,7 +9,6 @@
 
 Use a local or Atlas instance, which can be configured in `.env`
 
-
 #### WIP
 
 - Forgot Password

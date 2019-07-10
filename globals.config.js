@@ -5,6 +5,6 @@ dotenv.config()
 export const {
     PORT = 4000,
     MONGO_CONNECTION_URL,
-    APOLLO_ENGINE_KEY,
+    ENGINE_API_KEY,
     JWT_SECRET = uuidv1(),
 } = process.env

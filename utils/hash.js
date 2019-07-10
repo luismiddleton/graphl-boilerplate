@@ -1,19 +1,11 @@
-import { compare, hash } from "bcrypt"
+import { compare, hash } from 'bcrypt'
 
 const SALT_ROUNDS = 10
 
 export async function createHash(arg) {
-    let data = await hash(arg, SALT_ROUNDS)
-    return data
+    return await hash(arg, SALT_ROUNDS)
 }
 
 export async function isPassword(input, arg) {
-    let data = await compare(input, arg);
-    return data
+    return await compare(input, arg)
 }
-
-
-
-
-
-
