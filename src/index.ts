@@ -3,6 +3,7 @@ import express from 'express'
 import session from 'express-session'
 import morgan from 'morgan'
 import helmet from 'helmet'
+import cors from "cors"
 import { typeDefs } from './typedefs'
 import resolvers from './resolvers'
 import {
@@ -20,7 +21,8 @@ const startServer = async () => {
     const app = express()
 
     app.use(helmet())
-    app.use(morgan('combined'))
+    app.use(cors())
+    app.use(morgan('dev'))
     
     app.use(
         session({

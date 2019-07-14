@@ -1,12 +1,15 @@
 # Apollo Server 2 (GraphQL) Boilerplate
 
-- MongoDB
-- Typescript (`^3.5.3`)
-    - TSLint (`^5.18`)
-- GraphQL Code-Gen (`^1.4.0`)
-- Babel (`7.5`)
+- MongoDB - [Official](https://www.mongodb.com/)
+- Apollo Server 2 (Express) - [Official](https://www.apollographql.com/docs/apollo-server/)
+- Typescript (`^3.5.3`) - [Official](https://www.typescriptlang.org/)
+    - TSLint (`^5.18`) - [Official](https://palantir.github.io/tslint)
+- GraphQL Code-Gen (`^1.4.0`) - [Official](https://graphql-code-generator.com/)
+- Babel (`7.5`) - [Official](https://babeljs.io/)
 
-#### MongoDB
+----
+
+## MongoDB
 
 #### Local
 
@@ -22,11 +25,13 @@ MONGO_CONNECTION_URL
 JWT_SECRET
 ENGINE_API_KEY
 ```
-
-#### WIP
+---
+## WIP
 
 - Forgot Password
 - User Roles
+- Dockerize
 - Cookie Session
+- Rate Limiter
 - Logout
 - Mocks
