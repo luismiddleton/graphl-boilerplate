@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server-express'
 
 export const typeDefs = gql`
     # Comments in GraphQL are defined with the hash (#) symbol.
@@ -38,12 +38,12 @@ export const typeDefs = gql`
 
     type Mutation {
         createUser(
-            firstName: String
-            lastName: String
-            username: String
-            email: String
-            password: String
-            role: String
+            firstName: String!
+            lastName: String!
+            username: String!
+            email: String!
+            password: String!
+            role: Roles!
         ): User
         deleteUser(id: ID!): User!
         updateUser(

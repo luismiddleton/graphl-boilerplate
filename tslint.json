@@ -1,0 +1,14 @@
+{
+    "defaultSeverity": "warning",
+    "extends": ["tslint:recommended"],
+    "jsRules": {},
+    "rules": {
+        "semicolon": [false, "never"],
+        "quotemark": [false, "never"],
+        "arrow-parens": [true, "ban-single-arg-parens"]
+    },
+    "rulesDirectory": [],
+    "linterOptions": {
+        "format": "stylish"
+    }
+}
