@@ -1,17 +1,32 @@
 # Apollo Server 2 (GraphQL) Boilerplate
 
-- MongoDB (using `mongoose`)
+- MongoDB
 - Typescript (`^3.5.3`)
-- Babel transpiler
+    - TSLint (`^5.18`)
+- GraphQL Code-Gen (`^1.4.0`)
+- Babel (`7.5`)
 
 #### MongoDB
 
-Use a local `127.0.0.1` or [Atlas](https://www.mongodb.com/cloud/atlas) instance, which can be configured in `.env`
+#### Local
+
+[Installation Guide](https://docs.mongodb.com/manual/installation/#mongodb-community-edition-installation-tutorials)
+
+#### Cloud
+[Create a Atlas Cluster](https://www.mongodb.com/cloud/atlas), and set your environement variables `.env`
+
+#### Environment Variables
+
+```
+MONGO_CONNECTION_URL
+JWT_SECRET
+ENGINE_API_KEY
+```
 
 #### WIP
 
 - Forgot Password
-- User Roles (`IS_USER`, `IS_ADMIN`)
-- Cookie Session (memory store for `DEVELOPMENT`)
+- User Roles
+- Cookie Session
 - Logout
 - Mocks
