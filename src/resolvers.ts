@@ -1,4 +1,4 @@
-import Query from './resolvers/querys'
+import Query from './resolvers/queries'
 import Mutation from './resolvers/mutations'
 import Subscription from './resolvers/subscriptions';
 
