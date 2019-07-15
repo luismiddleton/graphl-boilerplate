@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql'
+import { ApolloContext } from '../context'
 export type Maybe<T> = T | null
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -10,23 +11,20 @@ export type Scalars = {
 }
 
 export type ChangePasswordResponse = {
-    __typename?: 'ChangePasswordResponse'
     changedPassword: Scalars['Boolean']
 }
 
 export type LoginResponse = {
-    __typename?: 'LoginResponse'
     loggedIn: Scalars['Boolean']
-    token: Scalars['String']
 }
 
 export type Mutation = {
-    __typename?: 'Mutation'
-    createUser?: Maybe<User>
+    createUser: Maybe<User>
     deleteUser: User
-    updateUser?: Maybe<UpdateResponse>
-    loginUser?: Maybe<LoginResponse>
-    changePassword?: Maybe<ChangePasswordResponse>
+    updateUser: Maybe<UpdateResponse>
+    loginUser: Maybe<LoginResponse>
+    logoutUser: Maybe<Scalars['String']>
+    changePassword: Maybe<ChangePasswordResponse>
 }
 
 export type MutationCreateUserArgs = {
@@ -44,10 +42,10 @@ export type MutationDeleteUserArgs = {
 
 export type MutationUpdateUserArgs = {
     id: Scalars['ID']
-    firstName?: Maybe<Scalars['String']>
-    lastName?: Maybe<Scalars['String']>
-    username?: Maybe<Scalars['String']>
-    email?: Maybe<Scalars['String']>
+    firstName: Maybe<Scalars['String']>
+    lastName: Maybe<Scalars['String']>
+    username: Maybe<Scalars['String']>
+    email: Maybe<Scalars['String']>
 }
 
 export type MutationLoginUserArgs = {
@@ -62,9 +60,9 @@ export type MutationChangePasswordArgs = {
 }
 
 export type Query = {
-    __typename?: 'Query'
-    users?: Maybe<Array<Maybe<User>>>
-    user?: Maybe<User>
+    users: Maybe<Array<Maybe<User>>>
+    user: Maybe<User>
+    currentUser: User
 }
 
 export type QueryUserArgs = {
@@ -76,23 +74,27 @@ export enum Roles {
     Admin = 'ADMIN',
 }
 
+export type Subscription = {
+    userAdded: User
+    userDeleted: User
+    userUpdated: User
+    userLoggedIn: User
+    userLoggedOut: User
+}
+
 export type UpdateResponse = {
-    __typename?: 'updateResponse'
     updated: Scalars['Boolean']
 }
 
 export type User = {
-    __typename?: 'User'
     id: Scalars['ID']
-    firstName?: Maybe<Scalars['String']>
-    lastName?: Maybe<Scalars['String']>
+    firstName: Maybe<Scalars['String']>
+    lastName: Maybe<Scalars['String']>
     username: Scalars['String']
     email: Scalars['String']
     password: Scalars['String']
-    role?: Maybe<Roles>
+    role: Maybe<Roles>
 }
-export type WithIndex<TObject> = TObject & Record<string, any>
-export type ResolversObject<TObject> = WithIndex<TObject>
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
 
@@ -164,7 +166,7 @@ export type DirectiveResolverFn<
 ) => TResult | Promise<TResult>
 
 /** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = ResolversObject<{
+export type ResolversTypes = {
     Query: ResolverTypeWrapper<{}>
     User: ResolverTypeWrapper<User>
     ID: ResolverTypeWrapper<Scalars['ID']>
@@ -175,10 +177,11 @@ export type ResolversTypes = ResolversObject<{
     Boolean: ResolverTypeWrapper<Scalars['Boolean']>
     LoginResponse: ResolverTypeWrapper<LoginResponse>
     ChangePasswordResponse: ResolverTypeWrapper<ChangePasswordResponse>
-}>
+    Subscription: ResolverTypeWrapper<{}>
+}
 
 /** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = ResolversObject<{
+export type ResolversParentTypes = {
     Query: {}
     User: User
     ID: Scalars['ID']
@@ -189,119 +192,153 @@ export type ResolversParentTypes = ResolversObject<{
     Boolean: Scalars['Boolean']
     LoginResponse: LoginResponse
     ChangePasswordResponse: ChangePasswordResponse
-}>
+    Subscription: {}
+}
 
 export type ChangePasswordResponseResolvers<
-    ContextType = any,
+    ContextType = ApolloContext,
     ParentType = ResolversParentTypes['ChangePasswordResponse']
-> = ResolversObject<{
-    changedPassword?: Resolver<
+> = {
+    changedPassword: Resolver<
         ResolversTypes['Boolean'],
         ParentType,
         ContextType
     >
-}>
+}
 
 export type LoginResponseResolvers<
-    ContextType = any,
+    ContextType = ApolloContext,
     ParentType = ResolversParentTypes['LoginResponse']
-> = ResolversObject<{
-    loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-    token?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-}>
+> = {
+    loggedIn: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+}
 
 export type MutationResolvers<
-    ContextType = any,
+    ContextType = ApolloContext,
     ParentType = ResolversParentTypes['Mutation']
-> = ResolversObject<{
-    createUser?: Resolver<
+> = {
+    createUser: Resolver<
         Maybe<ResolversTypes['User']>,
         ParentType,
         ContextType,
         MutationCreateUserArgs
     >
-    deleteUser?: Resolver<
+    deleteUser: Resolver<
         ResolversTypes['User'],
         ParentType,
         ContextType,
         MutationDeleteUserArgs
     >
-    updateUser?: Resolver<
+    updateUser: Resolver<
         Maybe<ResolversTypes['updateResponse']>,
         ParentType,
         ContextType,
         MutationUpdateUserArgs
     >
-    loginUser?: Resolver<
+    loginUser: Resolver<
         Maybe<ResolversTypes['LoginResponse']>,
         ParentType,
         ContextType,
         MutationLoginUserArgs
     >
-    changePassword?: Resolver<
+    logoutUser: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
+    changePassword: Resolver<
         Maybe<ResolversTypes['ChangePasswordResponse']>,
         ParentType,
         ContextType,
         MutationChangePasswordArgs
     >
-}>
+}
 
 export type QueryResolvers<
-    ContextType = any,
+    ContextType = ApolloContext,
     ParentType = ResolversParentTypes['Query']
-> = ResolversObject<{
-    users?: Resolver<
+> = {
+    users: Resolver<
         Maybe<Array<Maybe<ResolversTypes['User']>>>,
         ParentType,
         ContextType
     >
-    user?: Resolver<
+    user: Resolver<
         Maybe<ResolversTypes['User']>,
         ParentType,
         ContextType,
         QueryUserArgs
     >
-}>
+    currentUser: Resolver<ResolversTypes['User'], ParentType, ContextType>
+}
+
+export type SubscriptionResolvers<
+    ContextType = ApolloContext,
+    ParentType = ResolversParentTypes['Subscription']
+> = {
+    userAdded: SubscriptionResolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType
+    >
+    userDeleted: SubscriptionResolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType
+    >
+    userUpdated: SubscriptionResolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType
+    >
+    userLoggedIn: SubscriptionResolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType
+    >
+    userLoggedOut: SubscriptionResolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType
+    >
+}
 
 export type UpdateResponseResolvers<
-    ContextType = any,
+    ContextType = ApolloContext,
     ParentType = ResolversParentTypes['updateResponse']
-> = ResolversObject<{
-    updated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-}>
+> = {
+    updated: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+}
 
 export type UserResolvers<
-    ContextType = any,
+    ContextType = ApolloContext,
     ParentType = ResolversParentTypes['User']
-> = ResolversObject<{
-    id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-    firstName?: Resolver<
+> = {
+    id: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+    firstName: Resolver<
         Maybe<ResolversTypes['String']>,
         ParentType,
         ContextType
     >
-    lastName?: Resolver<
-        Maybe<ResolversTypes['String']>,
-        ParentType,
-        ContextType
-    >
-    username?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-    email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-    password?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-    role?: Resolver<Maybe<ResolversTypes['Roles']>, ParentType, ContextType>
-}>
+    lastName: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+    username: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    email: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    password: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    role: Resolver<Maybe<ResolversTypes['Roles']>, ParentType, ContextType>
+}
 
-export type Resolvers<ContextType = any> = ResolversObject<{
-    ChangePasswordResponse?: ChangePasswordResponseResolvers<ContextType>
-    LoginResponse?: LoginResponseResolvers<ContextType>
-    Mutation?: MutationResolvers<ContextType>
-    Query?: QueryResolvers<ContextType>
-    updateResponse?: UpdateResponseResolvers<ContextType>
-    User?: UserResolvers<ContextType>
-}>
+export type Resolvers<ContextType = ApolloContext> = {
+    ChangePasswordResponse: ChangePasswordResponseResolvers<ContextType>
+    LoginResponse: LoginResponseResolvers<ContextType>
+    Mutation: MutationResolvers<ContextType>
+    Query: QueryResolvers<ContextType>
+    Subscription: SubscriptionResolvers<ContextType>
+    updateResponse: UpdateResponseResolvers<ContextType>
+    User: UserResolvers<ContextType>
+}
 
 /**
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>
+export type IResolvers<ContextType = ApolloContext> = Resolvers<ContextType>

@@ -1,0 +1,66 @@
+type ChangePasswordResponse {
+    changedPassword: Boolean!
+}
+
+type LoginResponse {
+    loggedIn: Boolean!
+}
+
+type Mutation {
+    createUser(
+        firstName: String!
+        lastName: String!
+        username: String!
+        email: String!
+        password: String!
+        role: Roles!
+    ): User
+    deleteUser(id: ID!): User!
+    updateUser(
+        id: ID!
+        firstName: String
+        lastName: String
+        username: String
+        email: String
+    ): updateResponse
+    loginUser(email: String!, password: String!): LoginResponse
+    logoutUser: String
+    changePassword(
+        email: String!
+        currentPassword: String!
+        newPassword: String!
+    ): ChangePasswordResponse
+}
+
+type Query {
+    users: [User]
+    user(id: ID!): User
+    currentUser: User!
+}
+
+enum Roles {
+    USER
+    ADMIN
+}
+
+type Subscription {
+    userAdded: User!
+    userDeleted: User!
+    userUpdated: User!
+    userLoggedIn: User!
+    userLoggedOut: User!
+}
+
+type updateResponse {
+    updated: Boolean!
+}
+
+type User {
+    id: ID!
+    firstName: String
+    lastName: String
+    username: String!
+    email: String!
+    password: String!
+    role: Roles
+}

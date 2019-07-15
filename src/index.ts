@@ -1,18 +1,24 @@
-import { ApolloServer } from 'apollo-server-express'
+import http from 'http'
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
 import express from 'express'
 import session from 'express-session'
 import morgan from 'morgan'
 import helmet from 'helmet'
-import cors from "cors"
+import cors from 'cors'
+
+// import { execute, subscribe } from 'graphql'
+// import { createServer } from 'http'
+// import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { typeDefs } from './typedefs'
 import resolvers from './resolvers'
 import {
     MONGO_CONNECTION_URL,
     ENGINE_API_KEY,
     PORT,
-    COOKIE_SECRET,
+    SESSION_SECRET,
     COOKIE_MAX_AGE,
     IS_PRODUCTION,
+    SESSION_NAME,
 } from './globals.config'
 import { connect } from 'mongoose'
 import User from './models/users'
@@ -23,10 +29,11 @@ const startServer = async () => {
     app.use(helmet())
     app.use(cors())
     app.use(morgan('dev'))
-    
+
     app.use(
         session({
-            secret: COOKIE_SECRET,
+            name: SESSION_NAME,
+            secret: SESSION_SECRET,
             resave: false,
             saveUninitialized: false,
             cookie: {
@@ -45,16 +52,24 @@ const startServer = async () => {
         }
     )
 
+    const schema = makeExecutableSchema({ typeDefs, resolvers })
+
     const server = new ApolloServer({
-        typeDefs,
-        resolvers,
+        schema,
         engine: ENGINE_API_KEY ? { apiKey: ENGINE_API_KEY } : false,
-        context: { User },
+        context: ({ req, res }) => ({
+            User,
+            req,
+            res,
+        }),
     })
 
     server.applyMiddleware({ app })
 
-    return app.listen(PORT)
+    const httpServer = http.createServer(app);
+    server.installSubscriptionHandlers(httpServer);
+
+    return httpServer.listen(PORT)
 }
 
 startServer()

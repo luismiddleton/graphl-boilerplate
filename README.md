@@ -31,7 +31,9 @@ ENGINE_API_KEY
 - Forgot Password
 - User Roles
 - Dockerize
-- Cookie Session
+- Session Management 🍪 🍪 🍪
+    - Redis
+    - NoSQL (Mongo, Maria)
 - Rate Limiter
 - Logout
 - Mocks

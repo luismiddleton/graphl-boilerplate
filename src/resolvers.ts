@@ -1,9 +1,11 @@
 import Query from './resolvers/querys'
 import Mutation from './resolvers/mutations'
+import Subscription from './resolvers/subscriptions';
 
 const resolvers = {
     Query,
-    Mutation
+    Mutation,
+    Subscription
 }
 
 export default resolvers

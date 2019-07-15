@@ -10,8 +10,8 @@
     "compile:lint": "tslint --project tsconfig.json --config tslint.json './src/**/*.ts'",
     "compile": "tsc",
     "prettier": "prettier --write '**/*.ts'",
-    "dev": "yarn build:dev && nodemon --exec babel-node --presets=minify -- dist/index.js",
-    "build:dev": "NODE_ENV=development yarn clean && yarn compile:lint && yarn compile",
+    "dev": "yarn build:dev && nodemon --exec babel-node -- dist/index.js",
+    "build:dev": "NODE_ENV=development yarn clean && yarn compile:lint && yarn generate && yarn compile",
     "generate": "graphql-codegen --config codegen.yml --overwrite"
   },
   "keywords": [],
@@ -28,7 +28,8 @@
     "helmet": "^3.18.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.4",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",
@@ -38,6 +39,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@graphql-codegen/cli": "^1.4.0",
     "@graphql-codegen/introspection": "1.4.0",
+    "@graphql-codegen/schema-ast": "^1.4.0",
     "@graphql-codegen/typescript": "1.4.0",
     "@graphql-codegen/typescript-resolvers": "1.4.0",
     "@types/bcrypt": "^3.0.0",
@@ -50,7 +52,6 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^12.6.2",
     "@types/uuid": "^3.4.5",
-    "babel-preset-minify": "^0.5.0",
     "graphql-tools": "^4.0.5",
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",

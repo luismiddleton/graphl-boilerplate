@@ -15,7 +15,6 @@ export const typeDefs = gql`
 
     type LoginResponse {
         loggedIn: Boolean!
-        token: String!
     }
 
     type ChangePasswordResponse {
@@ -31,9 +30,18 @@ export const typeDefs = gql`
         ADMIN
     }
 
+    type Subscription {
+        userAdded: User!
+        userDeleted: User!
+        userUpdated: User!
+        userLoggedIn: User!
+        userLoggedOut: User!
+    }
+
     type Query {
         users: [User]
         user(id: ID!): User
+        currentUser: User!
     }
 
     type Mutation {
@@ -54,10 +62,17 @@ export const typeDefs = gql`
             email: String
         ): updateResponse
         loginUser(email: String!, password: String!): LoginResponse
+        logoutUser: String
         changePassword(
             email: String!
             currentPassword: String!
             newPassword: String!
         ): ChangePasswordResponse
+    }
+
+    schema {
+        query: Query
+        mutation: Mutation
+        subscription: Subscription
     }
 `
